@@ -141,17 +141,6 @@ void init_tournament()
 {
   ghistory_reg = 0;
 
-  // // make a mask for pc, local_pht, ghistory,
-  // uint32_t pht_entries = 1 << pcIndexBits;
-  // pcmask = pht_entries - 1;
-
-  // // get lower ghistoryBits
-  // uint32_t mask = 1 << lhistoryBits;
-  // lmask = mask - 1;
-
-  // uint32_t bht_entries = 1 << ghistoryBits;
-  // gmask = bht_entries - 1;
-
   // Local Pred table
   int local_pred_table_size = 1 << pcIndexBits;
   local_pred_table = (uint8_t *)malloc(sizeof(uint8_t) * local_pred_table_size);
@@ -231,12 +220,8 @@ void train_tournament(uint32_t pc, uint8_t outcome)
   uint32_t lpred;
   uint32_t gpred;
 
-  // printf("Global Mask : %u\nLocal Mask : %u\nPC Mask : %u\n",gmask,lmask,pcmask);
-
-  // get lower pht index from pc
   uint32_t pc_lower_bits = pc & ((1 << pcIndexBits) - 1);
 
-  // get ghistoryBits
   ghistbits = ghistory_reg & ((1 << ghistoryBits) - 1);
   choice = choice_table[ghistbits];
 
@@ -315,7 +300,6 @@ void init_predictor()
     init_tournament();
     break;
   case CUSTOM:
-    // init_tournament_gshare();
     break;
   default:
     break;
@@ -333,7 +317,6 @@ void train_predictor(uint32_t pc, uint8_t outcome)
   case TOURNAMENT:
     return train_tournament(pc, outcome);
   case CUSTOM:
-    // return train_tournament_gshare(pc, outcome);
   default:
     break;
   }
